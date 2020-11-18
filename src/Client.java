@@ -9,6 +9,11 @@ import java.net.*;
 import java.io.*;
 
 public class Client {
+    private DataInputStream instream;
+    private DataOutputStream outstream;
+    private PrintWriter out;
+    private BufferedReader in;
+
     public static void main(String[] args) {
         try {
             System.out.println("Starting new game of Tic-Tac-Toe...");

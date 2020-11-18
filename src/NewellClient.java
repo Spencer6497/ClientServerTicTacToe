@@ -34,6 +34,7 @@ public class NewellClient {
         BufferedReader var2 = new BufferedReader(new InputStreamReader(instream));
         board = new char[3][3];
 
+        // Initialize board values
         for(int var3 = 0; var3 <= 2; ++var3) {
             for(int var4 = 0; var4 <= 2; ++var4) {
                 board[var3][var4] = ' ';
@@ -46,14 +47,19 @@ public class NewellClient {
     }
 
     public static void playgame(BufferedReader var0, PrintWriter var1) throws IOException {
+        // Scanner used for player input
         Scanner var2 = new Scanner(System.in);
+        // control boolean, passes control between client and server_thread
         boolean var4 = false;
 
         for(boolean var5 = false; !var5; var4 = !var4) {
+            // Give control to server_thread first
             if (!var4) {
                 String var3 = var0.readLine();
+                // If the server moves first
                 if (!var3.equals("NONE")) {
                     String[] var6 = var3.split("\\s+");
+                    // If the server response is anything but a move (i.e. a win/loss/tie message), print it and end game
                     if (var6.length > 3) {
                         row = Integer.parseInt(var6[1]);
                         col = Integer.parseInt(var6[2]);
@@ -61,6 +67,7 @@ public class NewellClient {
                             board[row][col] = 'X';
                         }
 
+                        // Break down server response, pick out win/loss/tie keyword
                         String var7 = var6[3];
                         byte var8 = -1;
                         switch(var7.hashCode()) {
@@ -80,6 +87,7 @@ public class NewellClient {
                                 }
                         }
 
+                        // Print message to user indicating win status
                         switch(var8) {
                             case 0:
                                 System.out.println("\n\nCongratulations!!! You WON the game!");
@@ -92,14 +100,17 @@ public class NewellClient {
                         }
 
                         var5 = true;
+                    // Otherwise, update the board for the server's move.
                     } else {
                         row = Integer.parseInt(var6[1]);
                         col = Integer.parseInt(var6[2]);
                         board[row][col] = 'X';
                     }
+                // Player moves first
                 } else {
                     System.out.println("\nYOU MOVE FIRST");
                 }
+            // Give control to client
             } else {
                 while(true) {
                     do {
