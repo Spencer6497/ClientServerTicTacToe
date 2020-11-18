@@ -55,14 +55,11 @@ public class Server_thread extends Thread {
         int rand = gen.nextInt();
         turn = rand % 2 == 0;
 
-        if (turn) {
-            out.println("NONE");
-        }
-
         // Continue playing until gameOver
         while (!gameOver) {
             // Player's Move
             if (turn) {
+                out.println("NONE");
                 try {
                     response = in.readLine();
                 } catch (IOException e) {
@@ -115,9 +112,13 @@ public class Server_thread extends Thread {
     private void printBoard() {
         for (int i = 0; i < 3; i++) {
             out.println(board[i][0] + " | " + board[i][1] + " | " + board[i][2]);
+            // Test print
+            System.out.println(board[i][0] + " | " + board[i][1] + " | " + board[i][2]);
             // Print horizontal lines
             if (i != 2) {
                 out.println("----------");
+                // Test print
+                System.out.println("----------");
             }
         }
     }
@@ -153,13 +154,9 @@ public class Server_thread extends Thread {
         while (notFound) {
             int rowNum = gen.nextInt(3);
             int colNum = gen.nextInt(3);
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-                    notFound = board[i][j] != ' ';
-                }
-            }
-            // If we found a blank spot given the random row and col values, update the global variables
-            if (!notFound) {
+            // if the generated indices are blank in the matrix, update global variables and exit loop
+            if (board[rowNum][colNum] == ' ') {
+                notFound = false;
                 row = rowNum;
                 col = colNum;
             }
